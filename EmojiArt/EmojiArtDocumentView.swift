@@ -73,7 +73,7 @@ struct EmojiArtDocumentView: View {
     private func position(for emoji: EmojiArt.Emoji, in size: CGSize) -> CGPoint {
         var location = emoji.location
         location = CGPoint(x: location.x * zoomScale, y: location.y * zoomScale)
-        location = CGPoint(x: emoji.location.x + size.width/2, y: emoji.location.y + size.height/2)
+        location = CGPoint(x: location.x + size.width/2, y: location.y + size.height/2)
         return location
     }
     
