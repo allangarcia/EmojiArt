@@ -11,7 +11,22 @@ class EmojiArtDocument: ObservableObject {
     
     static let palette: String = "🦁🐸🐤🍅🍎🎱🥎🏀💣🧨"
     
-    @Published private var emojiArt: EmojiArt = EmojiArt()
+    // @Published [WORKAROUND]
+    private var emojiArt: EmojiArt = EmojiArt() {
+        willSet {
+            objectWillChange.send()
+        }
+        didSet {
+            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
+        }
+    }
+    
+    private static let untitled = "EmojiArtDocument.Untitled"
+    
+    init() {
+        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
+        fetchBackgroundImageData()
+    }
     
     @Published private(set) var backgroundImage: UIImage?
     
