@@ -38,6 +38,10 @@ struct EmojiArtDocumentView: View {
                         Text(emoji.text)
                             .font(animatableWithSize: emoji.fontSize * self.zoomScale)
                             .position(self.position(for: emoji, in: geometry.size))
+                            .onLongPressGesture {
+                                self.emojiToRemove = emoji
+                                self.alertToRemoveEmoji = true
+                            }
                     }
                 }
                 .clipped()
@@ -51,9 +55,25 @@ struct EmojiArtDocumentView: View {
                     location = CGPoint(x: location.x / self.zoomScale, y: location.y / self.zoomScale)
                     return self.drop(providers: providers, at: location)
                 }
+                .alert(isPresented: $alertToRemoveEmoji, content: {
+                    Alert(
+                        title: Text("Remove Emoji"),
+                        message: Text("Are you sure?"),
+                        primaryButton: .destructive(Text("YES"), action: {
+                            if let emoji = self.emojiToRemove {
+                                self.document.removeEmoji(emoji)
+                                self.emojiToRemove = nil
+                            }
+                        }),
+                        secondaryButton: .cancel()
+                    )
+                })
             }
         }
     }
+    
+    @State private var emojiToRemove: EmojiArt.Emoji?
+    @State private var alertToRemoveEmoji = false
     
     @State private var steadyStateZoomScale: CGFloat = 1.0
     @GestureState private var gestureZoomScale: CGFloat = 1.0

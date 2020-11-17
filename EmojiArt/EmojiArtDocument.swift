@@ -51,6 +51,12 @@ class EmojiArtDocument: ObservableObject {
         }
     }
     
+    func removeEmoji(_ emoji: EmojiArt.Emoji) {
+        if let index = emojiArt.emojis.firstIndex(matching: emoji) {
+            emojiArt.emojis.remove(at: index)
+        }
+    }
+    
     func setBackgroundURL(_ url: URL?) {
         emojiArt.backgroundURL = url?.imageURL
         fetchBackgroundImageData()
