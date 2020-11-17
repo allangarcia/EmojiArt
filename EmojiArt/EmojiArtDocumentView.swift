@@ -72,6 +72,9 @@ struct EmojiArtDocumentView: View {
                         message: Text("Are you sure?"),
                         primaryButton: .destructive(Text("YES"), action: {
                             if let emoji = self.emojiToRemove {
+                                if self.selectedEmojis.contains(emoji) {
+                                    self.unselectEmoji(emoji)
+                                }
                                 self.document.removeEmoji(emoji)
                                 self.emojiToRemove = nil
                             }
