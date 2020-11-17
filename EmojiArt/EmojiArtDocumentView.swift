@@ -36,8 +36,16 @@ struct EmojiArtDocumentView: View {
                         .gesture(self.doubleTapToZoom(in: geometry.size))
                     ForEach(self.document.emojis) { emoji in
                         Text(emoji.text)
+                            .selected(isSelected: self.selectedEmojis.contains(emoji))
                             .font(animatableWithSize: emoji.fontSize * self.zoomScale)
                             .position(self.position(for: emoji, in: geometry.size))
+                            .onTapGesture {
+                                if self.selectedEmojis.contains(emoji) {
+                                    self.unselectEmoji(emoji)
+                                } else {
+                                    self.selectEmoji(emoji)
+                                }
+                            }
                             .onLongPressGesture {
                                 self.emojiToRemove = emoji
                                 self.alertToRemoveEmoji = true
@@ -69,6 +77,22 @@ struct EmojiArtDocumentView: View {
                     )
                 })
             }
+        }
+    }
+    
+    @State private var selectedEmojis: [EmojiArt.Emoji] = [] {
+        didSet {
+            print("selected emojis= \(selectedEmojis)")
+        }
+    }
+    
+    private func selectEmoji(_ emoji: EmojiArt.Emoji) {
+        selectedEmojis.append(emoji)
+    }
+    
+    private func unselectEmoji(_ emoji: EmojiArt.Emoji) {
+        if let index = selectedEmojis.firstIndex(matching: emoji) {
+            selectedEmojis.remove(at: index)
         }
     }
     

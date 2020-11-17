@@ -16,6 +16,7 @@
 		9DFEDFF325608A1900EDA79F /* EmojiArtDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFEDFF225608A1900EDA79F /* EmojiArtDocument.swift */; };
 		9DFEDFF7256096CA00EDA79F /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFEDFF6256096CA00EDA79F /* EmojiArt.swift */; };
 		9DFEDFFA25609B1800EDA79F /* EmojiArtExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFEDFF925609B1800EDA79F /* EmojiArtExtensions.swift */; };
+		9DFF372025641C7F00D9EF47 /* SelectedViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFF371F25641C7F00D9EF47 /* SelectedViewModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9DFEDFF225608A1900EDA79F /* EmojiArtDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocument.swift; sourceTree = "<group>"; };
 		9DFEDFF6256096CA00EDA79F /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		9DFEDFF925609B1800EDA79F /* EmojiArtExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtExtensions.swift; sourceTree = "<group>"; };
+		9DFF371F25641C7F00D9EF47 /* SelectedViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				9DFEDFE4256089CA00EDA79F /* EmojiArtDocumentView.swift */,
 				9DFEDFF925609B1800EDA79F /* EmojiArtExtensions.swift */,
 				9D34B2702562E5A3001F7AD1 /* AnimatableSystemFontModifier.swift */,
+				9DFF371F25641C7F00D9EF47 /* SelectedViewModifier.swift */,
 				9D34B26D2562CFFF001F7AD1 /* OptionalImage.swift */,
 				9DFEDFE6256089CB00EDA79F /* Assets.xcassets */,
 				9DFEDFEB256089CB00EDA79F /* Info.plist */,
@@ -153,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DFF372025641C7F00D9EF47 /* SelectedViewModifier.swift in Sources */,
 				9D34B2712562E5A3001F7AD1 /* AnimatableSystemFontModifier.swift in Sources */,
 				9DFEDFF7256096CA00EDA79F /* EmojiArt.swift in Sources */,
 				9DFEDFFA25609B1800EDA79F /* EmojiArtExtensions.swift in Sources */,
