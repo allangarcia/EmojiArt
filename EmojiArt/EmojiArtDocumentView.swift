@@ -34,6 +34,9 @@ struct EmojiArtDocumentView: View {
                                 .offset(self.panOffset)
                         )
                         .gesture(self.doubleTapToZoom(in: geometry.size))
+                        .onTapGesture {
+                            self.selectedEmojis.removeAll()
+                        }
                     ForEach(self.document.emojis) { emoji in
                         Text(emoji.text)
                             .selected(isSelected: self.selectedEmojis.contains(emoji))
