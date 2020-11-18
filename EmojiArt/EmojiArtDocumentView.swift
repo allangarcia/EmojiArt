@@ -13,6 +13,9 @@ struct EmojiArtDocumentView: View {
     
     var body: some View {
         VStack {
+            
+            // MARK: -- Palette
+            
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(EmojiArtDocument.palette.map { String($0) }, id: \.self) { emoji in
@@ -25,6 +28,9 @@ struct EmojiArtDocumentView: View {
                 }
             }
             .padding(.horizontal)
+            
+            // MARK: -- Draw
+            
             GeometryReader { geometry in
                 ZStack {
                     Color.white
@@ -41,6 +47,7 @@ struct EmojiArtDocumentView: View {
                         Text(emoji.text)
                             .selected(isSelected: self.selectedEmojis.contains(emoji))
                             .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                            .scaleEffect(self.selectedEmojis.contains(emoji) ? self.gestureEmojiScale : 1.0)
                             .position(self.position(for: emoji, in: geometry.size))
                             .onTapGesture {
                                 if self.selectedEmojis.contains(emoji) {
@@ -57,6 +64,7 @@ struct EmojiArtDocumentView: View {
                 }
                 .clipped()
                 .gesture(self.panGesture())
+                .gesture(self.selectedEmojis.count > 0 ? self.emojiResizeGesture() : nil)
                 .gesture(self.zoomGesture())
                 .edgesIgnoringSafeArea([.horizontal, .bottom])
                 .onDrop(of: ["public.image", "public.text"], isTargeted: nil) { providers, location in
@@ -121,6 +129,22 @@ struct EmojiArtDocumentView: View {
                 self.steadyStateZoomScale *= finalGestureScale
             }
     }
+    
+    @GestureState private var gestureEmojiScale: CGFloat = 1.0
+    
+    private func emojiResizeGesture() -> some Gesture {
+        MagnificationGesture()
+            .updating($gestureEmojiScale) { latestGestureScale, gestureEmojiScale, transaction in
+                gestureEmojiScale = latestGestureScale
+            }
+            .onEnded { finalGestureScale in
+                self.selectedEmojis.forEach { emoji in
+                    self.document.scaleEmoji(emoji, by: finalGestureScale)
+                }
+                self.selectedEmojis.removeAll()
+            }
+    }
+
     
     @State private var steadyStatePanOffset: CGSize = .zero
     @GestureState private var gesturePanOffset: CGSize = .zero
