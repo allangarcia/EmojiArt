@@ -48,6 +48,7 @@ struct EmojiArtDocumentView: View {
                             .selected(isSelected: self.selectedEmojis.contains(emoji))
                             .font(animatableWithSize: emoji.fontSize * self.zoomScale)
                             .scaleEffect(self.selectedEmojis.contains(emoji) ? self.gestureEmojiScale : 1.0)
+                            .offset(self.selectedEmojis.contains(emoji) ? self.gestureEmojiOffset : .zero)
                             .position(self.position(for: emoji, in: geometry.size))
                             .onTapGesture {
                                 if self.selectedEmojis.contains(emoji) {
@@ -63,6 +64,7 @@ struct EmojiArtDocumentView: View {
                     }
                 }
                 .clipped()
+                .gesture(self.selectedEmojis.count > 0 ? self.emojiMoveGesture() : nil)
                 .gesture(self.panGesture())
                 .gesture(self.selectedEmojis.count > 0 ? self.emojiResizeGesture() : nil)
                 .gesture(self.zoomGesture())
@@ -160,6 +162,21 @@ struct EmojiArtDocumentView: View {
             }
             .onEnded { finalDragGestureValue in
                 self.steadyStatePanOffset = self.steadyStatePanOffset + (finalDragGestureValue.translation / self.zoomScale)
+            }
+    }
+    
+    @GestureState private var gestureEmojiOffset: CGSize = .zero
+    
+    private func emojiMoveGesture() -> some Gesture {
+        DragGesture()
+            .updating($gestureEmojiOffset) { lastestDragGestureValue, gestureEmojiOffset, transaction in
+                gestureEmojiOffset = lastestDragGestureValue.translation / self.zoomScale
+            }
+            .onEnded { finalDragGestureValue in
+                self.selectedEmojis.forEach { emoji in
+                    self.document.moveEmoji(emoji, by: finalDragGestureValue.translation / self.zoomScale)
+                }
+                self.selectedEmojis.removeAll()
             }
     }
     
