@@ -67,18 +67,17 @@ class EmojiArtDocument: ObservableObject {
         }
     }
     
+    private var fetchImageCancellable: AnyCancellable?
+    
     private func fetchBackgroundImageData() {
         backgroundImage = nil
         if let url = self.emojiArt.backgroundURL {
-            DispatchQueue.global(qos: .userInitiated).async {
-                if let imageData = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        if url == self.emojiArt.backgroundURL {
-                            self.backgroundImage = UIImage(data: imageData)
-                        }
-                    }
-                }
-            }
+            fetchImageCancellable?.cancel()
+            fetchImageCancellable = URLSession.shared.dataTaskPublisher(for: url)
+                .map { data, urlResponse in UIImage(data: data) } // mapping the publisher to emit a UIImage
+                .receive(on: DispatchQueue.main)
+                .replaceError(with: nil) // turn this publisher into a Never fails 
+                .assign(to: \.backgroundImage, on: self)
         }
     }
     
