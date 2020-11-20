@@ -75,6 +75,9 @@ struct EmojiArtDocumentView: View {
                 .gesture(self.selectedEmojis.count > 0 ? self.emojiResizeGesture() : nil)
                 .gesture(self.zoomGesture())
                 .edgesIgnoringSafeArea([.horizontal, .bottom])
+                .onReceive(self.document.$backgroundImage) { image in
+                    self.zoomToFit(image, in: geometry.size)
+                }
                 .onDrop(of: ["public.image", "public.text"], isTargeted: nil) { providers, location in
                     var location = geometry.convert(location, from: .global)
                     location = CGPoint(x: location.x - geometry.size.width/2, y: location.y - geometry.size.height/2)
@@ -180,7 +183,7 @@ struct EmojiArtDocumentView: View {
     private func emojiMoveGesture() -> some Gesture {
         DragGesture()
             .updating($gestureEmojiOffset) { lastestDragGestureValue, gestureEmojiOffset, transaction in
-                gestureEmojiOffset = lastestDragGestureValue.translation / self.zoomScale
+                gestureEmojiOffset = lastestDragGestureValue.translation
             }
             .onEnded { finalDragGestureValue in
                 self.selectedEmojis.forEach { emoji in
