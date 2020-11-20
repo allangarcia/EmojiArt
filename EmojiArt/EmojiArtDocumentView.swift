@@ -43,24 +43,30 @@ struct EmojiArtDocumentView: View {
                         .onTapGesture {
                             self.selectedEmojis.removeAll()
                         }
-                    ForEach(self.document.emojis) { emoji in
-                        Text(emoji.text)
-                            .selected(isSelected: self.selectedEmojis.contains(emoji))
-                            .font(animatableWithSize: emoji.fontSize * self.zoomScale)
-                            .scaleEffect(self.selectedEmojis.contains(emoji) ? self.gestureEmojiScale : 1.0)
-                            .offset(self.selectedEmojis.contains(emoji) ? self.gestureEmojiOffset : .zero)
-                            .position(self.position(for: emoji, in: geometry.size))
-                            .onTapGesture {
-                                if self.selectedEmojis.contains(emoji) {
-                                    self.unselectEmoji(emoji)
-                                } else {
-                                    self.selectEmoji(emoji)
+                    if self.isLoading {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .imageScale(.large)
+                            .spinning()
+                    } else {
+                        ForEach(self.document.emojis) { emoji in
+                            Text(emoji.text)
+                                .selected(isSelected: self.selectedEmojis.contains(emoji))
+                                .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                                .scaleEffect(self.selectedEmojis.contains(emoji) ? self.gestureEmojiScale : 1.0)
+                                .offset(self.selectedEmojis.contains(emoji) ? self.gestureEmojiOffset : .zero)
+                                .position(self.position(for: emoji, in: geometry.size))
+                                .onTapGesture {
+                                    if self.selectedEmojis.contains(emoji) {
+                                        self.unselectEmoji(emoji)
+                                    } else {
+                                        self.selectEmoji(emoji)
+                                    }
                                 }
-                            }
-                            .onLongPressGesture {
-                                self.emojiToRemove = emoji
-                                self.alertToRemoveEmoji = true
-                            }
+                                .onLongPressGesture {
+                                    self.emojiToRemove = emoji
+                                    self.alertToRemoveEmoji = true
+                                }
+                        }
                     }
                 }
                 .clipped()
@@ -94,6 +100,10 @@ struct EmojiArtDocumentView: View {
                 })
             }
         }
+    }
+    
+    var isLoading: Bool {
+        document.backgroundURL != nil && document.backgroundImage == nil
     }
     
     @State private var selectedEmojis: [EmojiArt.Emoji] = [] {
@@ -209,7 +219,7 @@ struct EmojiArtDocumentView: View {
     private func drop(providers: [NSItemProvider], at location: CGPoint) -> Bool {
         var found = providers.loadFirstObject(ofType: URL.self) { url in
             print("dropped: \(url)")
-            self.document.setBackgroundURL(url)
+            self.document.backgroundURL = url
         }
         if !found {
             found = providers.loadObjects(ofType: String.self) { string in
