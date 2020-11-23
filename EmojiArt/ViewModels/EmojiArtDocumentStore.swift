@@ -9,7 +9,6 @@
 import SwiftUI
 import Combine
 
-
 class EmojiArtDocumentStore: ObservableObject {
     
     let name: String

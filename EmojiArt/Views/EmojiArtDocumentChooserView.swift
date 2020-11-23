@@ -17,9 +17,8 @@ struct EmojiArtDocumentChooserView: View {
         NavigationView {
             List {
                 ForEach(store.documents) { document in
-                    NavigationLink(
-                        destination: EmojiArtDocumentView(document: document)
-                            .navigationBarTitle(Text(self.store.name(for: document)))
+                    NavigationLink(destination: EmojiArtDocumentView(document: document)
+                        .navigationBarTitle(Text(self.store.name(for: document)))
                     ) {
                         EditableText(self.store.name(for: document), isEditing: self.editMode.isEditing) { name in
                             self.store.setName(name, for: document)
@@ -31,16 +30,19 @@ struct EmojiArtDocumentChooserView: View {
                         self.store.removeDocument(document)
                     }
                 }
+                
             }
             .navigationBarTitle(Text(self.store.name))
             .navigationBarItems(
-                leading: Button(
+                leading: EditButton(),
+                trailing: Button(
                     action: { self.store.addDocument() },
                     label: { Image(systemName: "plus").imageScale(.large) }
-                ),
-                trailing: EditButton()
+                )
             )
+            .listStyle(PlainListStyle())
             .environment(\.editMode, $editMode)
         }
+        
     }
 }

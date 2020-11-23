@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 
-
 class EmojiArtDocument: ObservableObject, Hashable, Identifiable, Equatable {
     
     static func == (lhs: EmojiArtDocument, rhs: EmojiArtDocument) -> Bool {
