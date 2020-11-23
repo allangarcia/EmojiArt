@@ -10,8 +10,8 @@ import Foundation
 
 // MARK: - Palette Extension
 
-extension EmojiArtDocument
-{
+extension EmojiArtDocument {
+    
     private static let PalettesKey = "EmojiArtDocument.PalettesKey"
 
     // even though this is an instance var, it is shared across instances

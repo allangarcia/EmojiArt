@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct EmojiArt: Codable {
     
     var backgroundURL: URL?

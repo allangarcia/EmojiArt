@@ -7,12 +7,15 @@
 
 import SwiftUI
 
+
 @main
 struct EmojiArtApp: App {
     var body: some Scene {
         WindowGroup {
-            let store = EmojiArtDocumentStore(named: "Emoji Art")
-            EmojiArtDocumentChooser().environmentObject(store)
+            let storeName = "Emoji Art"
+            let store = EmojiArtDocumentStore(named: storeName)
+            EmojiArtDocumentChooserView()
+                .environmentObject(store)
         }
     }
 }

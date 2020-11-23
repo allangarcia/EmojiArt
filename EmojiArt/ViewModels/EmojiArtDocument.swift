@@ -21,7 +21,7 @@ class EmojiArtDocument: ObservableObject, Hashable, Identifiable, Equatable {
         hasher.combine(id)
     }
     
-    static let palette: String = "🦁🐸🐤🍅🍎🎱🥎🏀💣🧨"
+    //static let palette: String = "🦁🐸🐤🍅🍎🎱🥎🏀💣🧨" -- NOT IN USE
     
     @Published private var emojiArt: EmojiArt
         

@@ -1,5 +1,5 @@
 //
-//  EmojiArtDocumentChooser.swift
+//  EmojiArtDocumentChooserView.swift
 //  EmojiArt
 //
 //  Created by Allan Garcia on 21/11/2020.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EmojiArtDocumentChooser: View {
+struct EmojiArtDocumentChooserView: View {
     
     @EnvironmentObject var store: EmojiArtDocumentStore
     
@@ -42,11 +42,5 @@ struct EmojiArtDocumentChooser: View {
             )
             .environment(\.editMode, $editMode)
         }
-    }
-}
-
-struct EmojiArtDocumentChooser_Previews: PreviewProvider {
-    static var previews: some View {
-        EmojiArtDocumentChooser()
     }
 }
