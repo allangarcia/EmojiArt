@@ -43,6 +43,7 @@ struct EmojiArtDocumentChooserView: View {
             .listStyle(PlainListStyle())
             .environment(\.editMode, $editMode)
         }
+        .navigationViewStyle(DoubleColumnNavigationViewStyle())
         
     }
 }
